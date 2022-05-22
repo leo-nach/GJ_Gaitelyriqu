@@ -17,7 +17,13 @@ public class LaunchMusic : MonoBehaviour
         if (!audioSource.isPlaying)
         {
             audioSource.clip = Music;
-            audioSource.Play();
+            audioSource.Play();         
         }
+        
+        /*if (Radiodetente)
+        {
+            audiosource.clip = FinDuGame;
+            audioSource.Play();
+        }*/
     }
 }
