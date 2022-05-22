@@ -71,15 +71,20 @@ public class ObjectsScript : MonoBehaviour
                 // PLAY SOUND HERE OR ANIMATION
                 objects[current].unity_obj.SetActive(false);
                 current++;
-                objects[current].unity_obj.SetActive(true);
+                if (current < objects.Length)
+                    objects[current].unity_obj.SetActive(true);
             }
             // value is point where it disappear from screen - 15 from collectible object position
             else if (objects[current].unity_obj.transform.position.z < -7)
             {
                 objects[current].unity_obj.SetActive(false);
                 current++;
-                objects[current].unity_obj.SetActive(true);
+                if (current < objects.Length)
+                    objects[current].unity_obj.SetActive(true);
             }
+        }
+        else {
+            Debug.Log("GAME FINISHED");
         }
         // ELSE, on a fait tous les objets du coup fin et affichage ?
     }

@@ -19,21 +19,24 @@ public class GroundScript : MonoBehaviour
     // Invoked when a line of data is received from the serial device.
     void OnMessageArrived(string msg)
     {
-        Debug.Log(msg);
-        int dist = int.Parse(msg);
-        int new_state = what_color(dist);
-        if (change_state[0] != new_state)
-        {
-            change_state[0] = new_state;
-            change_state[1] = 0;
-        }
-        else if (new_state != state)
-            change_state[1] += 1;
-        if (change_state[1] > 2)
-        {
-            change_color(new_state);
-            state = new_state;
-        }
+        // Debug.Log(msg);
+        try {
+            int dist = int.Parse(msg);
+            int new_state = what_color(dist);
+            if (change_state[0] != new_state)
+            {
+                change_state[0] = new_state;
+                change_state[1] = 0;
+            }
+            else if (new_state != state)
+                change_state[1] += 1;
+            if (change_state[1] > 2)
+            {
+                change_color(new_state);
+                state = new_state;
+            }
+        } catch {}
+       
     }
 
     // Invoked when a connect/disconnect event occurs. The parameter 'success'
