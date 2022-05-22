@@ -5,13 +5,17 @@ using UnityEngine;
 public class EndChoiceScript : MonoBehaviour
 {
 
-    public int start = 0;
+    public static int start = 0;
     public GameObject[] choices = new GameObject[3];
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // StartCoroutine(waiter());
+        for (int i = 0; i < choices.Length; i++)
+        {
+            choices[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -22,7 +26,13 @@ public class EndChoiceScript : MonoBehaviour
             // animation
             // son
             // pop objets
+            for (int i = 0; i < choices.Length; i++)
+            {
+                choices[i].SetActive(false);
+            }
             // laps de temps
+            // yield return new WaitForSeconds(4);
+            int lane = GroundScript.state;
             // feedback selection
         }
     }
