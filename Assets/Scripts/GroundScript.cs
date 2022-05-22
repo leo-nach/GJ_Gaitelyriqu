@@ -20,23 +20,31 @@ public class GroundScript : MonoBehaviour
     void OnMessageArrived(string msg)
     {
         // Debug.Log(msg);
-        try {
-            int dist = int.Parse(msg);
-            int new_state = what_color(dist);
-            if (change_state[0] != new_state)
+        if (ObjectsScript.start == 1)
+        {
+            if (left_ground.activeSelf == false)
             {
-                change_state[0] = new_state;
-                change_state[1] = 0;
+                left_ground.SetActive(true);
+                middle_ground.SetActive(true);
+                right_ground.SetActive(true);
             }
-            else if (new_state != state)
-                change_state[1] += 1;
-            if (change_state[1] > 2)
-            {
-                change_color(new_state);
-                state = new_state;
-            }
-        } catch {}
-       
+            try {
+                int dist = int.Parse(msg);
+                int new_state = what_color(dist);
+                if (change_state[0] != new_state)
+                {
+                    change_state[0] = new_state;
+                    change_state[1] = 0;
+                }
+                else if (new_state != state)
+                    change_state[1] += 1;
+                if (change_state[1] > 2)
+                {
+                    change_color(new_state);
+                    state = new_state;
+                }
+            } catch {}
+        }
     }
 
     // Invoked when a connect/disconnect event occurs. The parameter 'success'

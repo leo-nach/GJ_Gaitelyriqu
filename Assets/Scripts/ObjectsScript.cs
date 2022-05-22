@@ -47,6 +47,7 @@ public class ObjectsScript : MonoBehaviour
     static int current = 0;
     static int nb_catch = 0;
     int total_obj = 9;
+    public static int start = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -55,13 +56,12 @@ public class ObjectsScript : MonoBehaviour
         {
             objects[i] = new Obj(unity_objects[i], lanes_order[i], positionArray[i]);
         }
-        objects[0].unity_obj.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (current < objects.Length)
+        if (start == 1 && current < objects.Length)
         {
             if (objects[current].catched == true)
             {
@@ -78,13 +78,15 @@ public class ObjectsScript : MonoBehaviour
             if (objects[current].unity_obj.transform.position.z < -5 && GroundScript.state == objects[current].lane + 1)
             {
                 objects[current].catched = true;
+                objects[current].unity_obj.GetComponent<AudioSource>().Play();
+                objects[current].unity_obj.GetComponent<SpriteRenderer>().color = Color.clear;
+
                 Debug.Log("GOT OBJECT");
                 nb_catch += 1;
-                // PLAY SOUND HERE OR ANIMATION
-                objects[current].unity_obj.SetActive(false);
+                // objects[current].unity_obj.SetActive(false);
                 current++;
-                // if (current >= objects.Length && nb_catch != total_obj)
-                //     current = 0;
+                if (current >= objects.Length && nb_catch != total_obj)
+                    current = 0;
             }
             // value is point where it disappear from screen - 15 from collectible object position
             else if (objects[current].unity_obj.transform.position.z < -7)
@@ -92,16 +94,17 @@ public class ObjectsScript : MonoBehaviour
                 objects[current].unity_obj.SetActive(false);
                 objects[current].unity_obj.transform.position = new Vector3(objects[current].unity_obj.transform.position.x, 0, 15);
                 current++;
-                // if (current >= objects.Length && nb_catch != total_obj)
-                //     current = 0;
+                if (current >= objects.Length && nb_catch != total_obj)
+                    current = 0;
             }
         }
-        else {
-            for (int i = 0; i < objects.Length; i++)
-            {
+        else if (start == 1) {
+            // for (int i = 0; i < objects.Length; i++)
+            // {
 
-            }
+            // }
             Debug.Log("GAME FINISHED");
+            LaunchMusic.end = 1;
             EndChoiceScript.start = 1;
         }
         // ELSE, on a fait tous les objets du coup fin et affichage ?
