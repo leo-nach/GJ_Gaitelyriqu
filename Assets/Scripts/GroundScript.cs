@@ -11,6 +11,9 @@ public class GroundScript : MonoBehaviour
     public GameObject middle_ground;
     public GameObject right_ground;
 
+    public GameObject line1;
+    public GameObject line2;
+
     // state 0 = no lane, 1 = left (red), 2 = middle (green), 3 = right (blue)
     public static int state = 2;
 

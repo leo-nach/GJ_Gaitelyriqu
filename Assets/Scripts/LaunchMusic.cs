@@ -21,7 +21,7 @@ public class LaunchMusic : MonoBehaviour
         {
             ObjectsScript.start = 1;
             audioSource.clip = Music;
-            audioSource.Play();
+            audioSource.Play();         
         }
         if (end == 1 && started_end == 0)
         {
