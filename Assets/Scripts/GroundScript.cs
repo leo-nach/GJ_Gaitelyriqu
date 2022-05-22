@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class GroundScript : MonoBehaviour
 {
-    public Material red;
-    public Material green;
-    public Material blue;
-    public Material white;
+    public Material selected;
+    public Material not_selected;
 
-    public GameObject red_ground;
-    public GameObject green_ground;
-    public GameObject blue_ground;
+    public GameObject left_ground;
+    public GameObject middle_ground;
+    public GameObject right_ground;
 
     // state 0 = no lane, 1 = left (red), 2 = middle (green), 3 = right (blue)
-    static int state = 2;
+    public static int state = 2;
 
     static int[] change_state = new int[] { 0, 0 }; // to change and number
 
@@ -22,20 +20,20 @@ public class GroundScript : MonoBehaviour
     void OnMessageArrived(string msg)
     {
         Debug.Log(msg);
-        // int dist = int.Parse(msg);
-        // int new_state = what_color(dist);
-        // if (change_state[0] != new_state)
-        // {
-        //     change_state[0] = new_state;
-        //     change_state[1] = 0;
-        // }
-        // else if (new_state != state)
-        //     change_state[1] += 1;
-        // if (change_state[1] > 2)
-        // {
-        //     change_color(new_state);
-        //     state = new_state;
-        // }
+        int dist = int.Parse(msg);
+        int new_state = what_color(dist);
+        if (change_state[0] != new_state)
+        {
+            change_state[0] = new_state;
+            change_state[1] = 0;
+        }
+        else if (new_state != state)
+            change_state[1] += 1;
+        if (change_state[1] > 2)
+        {
+            change_color(new_state);
+            state = new_state;
+        }
     }
 
     // Invoked when a connect/disconnect event occurs. The parameter 'success'
@@ -60,8 +58,8 @@ public class GroundScript : MonoBehaviour
 
     void change_color(int color)
     {
-        red_ground.GetComponent<MeshRenderer> ().material = (state == 1 ? red : white);
-        green_ground.GetComponent<MeshRenderer> ().material = (state == 2 ? green : white);
-        blue_ground.GetComponent<MeshRenderer> ().material = (state == 3 ? blue : white);
+        left_ground.GetComponent<MeshRenderer> ().material = (state == 1 ? selected : not_selected);
+        middle_ground.GetComponent<MeshRenderer> ().material = (state == 2 ? selected : not_selected);
+        right_ground.GetComponent<MeshRenderer> ().material = (state == 3 ? selected : not_selected);
     }
 }
