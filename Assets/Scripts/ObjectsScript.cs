@@ -31,7 +31,6 @@ public class Obj
 public class ObjectsScript : MonoBehaviour
 {
     public GameObject[] unity_objects = new GameObject[8];
-    public GameObject[] Lanes;
     int[] lanes_order = new int[] {1, 0, 2, 1, 2, 0, 2, 1};
     Vector3[] positionArray = new [] { new Vector3(0,0,0), 
                                         new Vector3(0,0,0),
@@ -45,6 +44,7 @@ public class ObjectsScript : MonoBehaviour
     Obj[] objects = new Obj[8];
 
     static int current = 0;
+    static int nb_catch = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -61,26 +61,37 @@ public class ObjectsScript : MonoBehaviour
     {
         if (current < objects.Length)
         {
-             objects[current].move();
-        
+            if (objects[current].catched == true)
+            {
+                current++;
+                if (current >= objects.Length && nb_catch != 8)
+                    current = 0;
+                return ;
+            }
+            if (objects[current].unity_obj.activeSelf == false)
+                objects[current].unity_obj.SetActive(true);
+            objects[current].move();
+
             // COLLISION => ON A L'OBJET
             if (objects[current].unity_obj.transform.position.z < -5 && GroundScript.state == objects[current].lane + 1)
             {
                 objects[current].catched = true;
                 Debug.Log("GOT OBJECT");
+                nb_catch += 1;
                 // PLAY SOUND HERE OR ANIMATION
                 objects[current].unity_obj.SetActive(false);
                 current++;
-                if (current < objects.Length)
-                    objects[current].unity_obj.SetActive(true);
+                if (current >= objects.Length && nb_catch != 8)
+                    current = 0;
             }
             // value is point where it disappear from screen - 15 from collectible object position
             else if (objects[current].unity_obj.transform.position.z < -7)
             {
                 objects[current].unity_obj.SetActive(false);
+                objects[current].unity_obj.transform.position = new Vector3(objects[current].unity_obj.transform.position.x, 0, 15);
                 current++;
-                if (current < objects.Length)
-                    objects[current].unity_obj.SetActive(true);
+                if (current >= objects.Length && nb_catch != 8)
+                    current = 0;
             }
         }
         else {
